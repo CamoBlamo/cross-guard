@@ -8,18 +8,22 @@
     <link rel="icon" type="image/jpg" href="icons/gcps-1000x600.jpg">
 </head>
 <body>
-    <h1>Choose Your School</h1>
-    <p>Please select your school to access your dashboard.</p>
-    <form action="guard_dashboard.html" method="post" class="school-selection-form">
-        <label for="school">Select your school:</label>
-        <select id="school" name="school" required>
-            <option value="">--Please choose an option--</option>
-            <option value="school1">School 1</option>
-            <option value="school2">School 2</option>
-            <option value="school3">School 3</option>
-        </select>
-        <button type="submit">Continue</button>
-    </form>
+    <div class="school-container">
+        <h1>Choose Your School</h1>
+        <p>Please select your school to access your dashboard.</p>
+        <form class="school-selection-form">
+            <div class="form-group">
+                <label for="school">Select your school:</label>
+                <select id="school" name="school" required>
+                    <option value="">--Please choose an option--</option>
+                    <option value="school1">School 1</option>
+                    <option value="school2">School 2</option>
+                    <option value="school3">School 3</option>
+                </select>
+            </div>
+            <button type="submit">Continue</button>
+        </form>
+    </div>
 
     <script src="school-choose.js"></script>
 </body>

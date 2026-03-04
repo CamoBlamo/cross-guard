@@ -1,19 +1,21 @@
 let currentAdmin = localStorage.getItem('currentAdmin');
 let adminType = localStorage.getItem('adminType');
 
-// Verify the admin is logged in (regular admin only - super admins use different panel)
-if (!currentAdmin || adminType !== 'regular') {
-    alert('Please log in to access the admin dashboard.');
-    window.location.href = 'admin_login.html';
+// Verify the super admin is logged in
+if (!currentAdmin || adminType !== 'super') {
+    alert('Unauthorized access. Super administrator credentials required.');
+    window.location.href = 'super_admin_login.html';
 }
 
 // Update the page title
-document.title = 'GCPS Crossing Guard || Admin Dashboard';
+document.title = 'GCPS Crossing Guard || Super Admin Panel';
 
 // Get all sections
 const guardLocationMap = document.querySelector('.guard-location-map');
 const manageGuards = document.querySelector('.manage-guards');
 const viewReports = document.querySelector('.view-reports');
+const manageAdmins = document.querySelector('.manage-admins');
+const systemSettings = document.querySelector('.system-settings');
 const adminResources = document.querySelector('.admin-resources');
 const clockoutConfirmation = document.querySelector('.clockout-confirmation');
 const overlay = document.getElementById('overlay');
@@ -27,6 +29,8 @@ function hideAllSections() {
     if (guardLocationMap) guardLocationMap.style.display = 'none';
     if (manageGuards) manageGuards.style.display = 'none';
     if (viewReports) viewReports.style.display = 'none';
+    if (manageAdmins) manageAdmins.style.display = 'none';
+    if (systemSettings) systemSettings.style.display = 'none';
     if (adminResources) adminResources.style.display = 'none';
     if (clockoutConfirmation) clockoutConfirmation.style.display = 'none';
     if (overlay) overlay.style.display = 'none';
@@ -40,20 +44,38 @@ function showOverlay() {
 // Initialize - hide all sections
 hideAllSections();
 
+// Function to get active admin username based on 360-day rotation cycle
+function getActiveAdminUsername() {
+    const adminUsernames = ['admin1', 'admin2', 'admin3'];
+    const startDate = new Date('2024-01-01');
+    const currentDate = new Date();
+    const daysPassed = Math.floor((currentDate - startDate) / (1000 * 60 * 60 * 24));
+    const rotationIndex = Math.floor(daysPassed / 360) % adminUsernames.length;
+    return adminUsernames[rotationIndex];
+}
+
+// Display current rotation info
+const currentRotation = document.getElementById('currentRotation');
+if (currentRotation) {
+    const activeAdmin = getActiveAdminUsername();
+    const startDate = new Date('2024-01-01');
+    const currentDate = new Date();
+    const daysPassed = Math.floor((currentDate - startDate) / (1000 * 60 * 60 * 24));
+    const daysUntilNextRotation = 360 - (daysPassed % 360);
+    currentRotation.textContent = `Current active admin: ${activeAdmin} | Days until next rotation: ${daysUntilNextRotation}`;
+}
+
 // Initialize map function
 function initMap() {
     if (!map) {
-        // Initialize map centered on a default location (update coordinates as needed)
-        map = L.map('map').setView([33.9519, -83.3576], 12); // Gwinnett County, GA coordinates
+        map = L.map('map').setView([33.9519, -83.3576], 12);
         
-        // Add OpenStreetMap tiles
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors',
             maxZoom: 19
         }).addTo(map);
     }
     
-    // Refresh map size (important when showing modal)
     setTimeout(() => {
         map.invalidateSize();
     }, 100);
@@ -61,17 +83,7 @@ function initMap() {
 
 // Function to get guard locations from API
 async function fetchGuardLocations() {
-    // TODO: Replace with actual API call to get guard locations
-    // Example API structure:
-    // try {
-    //     const response = await fetch('/api/guards/locations');
-    //     const guards = await response.json();
-    //     updateGuardLocations(guards);
-    // } catch (error) {
-    //     console.error('Error fetching guard locations:', error);
-    // }
-    
-    // Mock data for demonstration
+    // TODO: Replace with actual API call
     const mockGuardData = [
         {
             id: 'guard1',
@@ -104,11 +116,9 @@ async function fetchGuardLocations() {
 
 // Function to update guard markers on map
 function updateGuardLocations(guards) {
-    // Clear existing markers
     Object.values(guardMarkers).forEach(marker => marker.remove());
     guardMarkers = {};
     
-    // Add new markers
     guards.forEach(guard => {
         if (guard.location && guard.status === 'active') {
             const marker = L.marker([guard.location.lat, guard.location.lng])
@@ -124,7 +134,6 @@ function updateGuardLocations(guards) {
         }
     });
     
-    // Update guard list
     updateGuardList(guards);
 }
 
@@ -157,9 +166,6 @@ if (guardLocationBtn) {
             guardLocationMap.style.display = 'block';
             initMap();
             fetchGuardLocations();
-            
-            // TODO: Set up periodic updates (e.g., every 30 seconds)
-            // setInterval(fetchGuardLocations, 30000);
         }
     });
 }
@@ -182,6 +188,30 @@ if (viewReportsBtn) {
     });
 }
 
+const manageAdminsBtn = document.getElementById('manageAdminsBtn');
+if (manageAdminsBtn) {
+    manageAdminsBtn.addEventListener('click', () => {
+        hideAllSections();
+        showOverlay();
+        if (manageAdmins) manageAdmins.style.display = 'block';
+    });
+}
+
+const systemSettingsBtn = document.getElementById('systemSettingsBtn');
+if (systemSettingsBtn) {
+    systemSettingsBtn.addEventListener('click', () => {
+        hideAllSections();
+        showOverlay();
+        if (systemSettings) systemSettings.style.display = 'block';
+        
+        // Update last backup time
+        const lastBackup = document.getElementById('lastBackup');
+        if (lastBackup) {
+            lastBackup.textContent = new Date().toLocaleString();
+        }
+    });
+}
+
 const adminResourcesBtn = document.getElementById('adminResourcesBtn');
 if (adminResourcesBtn) {
     adminResourcesBtn.addEventListener('click', () => {
@@ -194,7 +224,6 @@ if (adminResourcesBtn) {
 const logoutBtn = document.getElementById('logoutBtn');
 if (logoutBtn) {
     logoutBtn.addEventListener('click', () => {
-        // Show confirmation modal
         hideAllSections();
         showOverlay();
         if (clockoutConfirmation) clockoutConfirmation.style.display = 'block';
@@ -205,23 +234,9 @@ if (logoutBtn) {
 const confirmClockoutBtn = document.getElementById('confirmClockout');
 if (confirmClockoutBtn) {
     confirmClockoutBtn.addEventListener('click', async () => {
-        // TODO: Add API call here to log admin clock out time
-        // Example:
-        // try {
-        //     await fetch('/api/admin/clockout', {
-        //         method: 'POST',
-        //         headers: { 'Content-Type': 'application/json' },
-        //         body: JSON.stringify({
-        //             admin: currentAdmin,
-        //             timestamp: new Date().toISOString()
-        //         })
-        //     });
-        // } catch (error) {
-        //     console.error('Error clocking out:', error);
-        // }
-        
-        // Clear session and redirect
+        // TODO: Add API call here
         localStorage.removeItem('currentAdmin');
+        localStorage.removeItem('adminType');
         window.location.href = 'index.html';
     });
 }
