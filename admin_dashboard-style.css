@@ -4,7 +4,7 @@
     --line-color: #ced4da;
     --hover-color: #863026;
     --card-bg: #ffffff;
-    --super-admin-color: #6f42c1;
+    --super-admin-color: #000000;
 }
 
 * {
@@ -25,14 +25,14 @@ body {
     position: fixed;
     top: 20px;
     right: 20px;
-    background: linear-gradient(135deg, var(--super-admin-color), #9b59b6);
+    background: linear-gradient(135deg, var(--super-admin-color), #a33a2e);
     color: white;
     padding: 8px 20px;
     border-radius: 20px;
     font-weight: 600;
     font-size: 0.85em;
     letter-spacing: 1px;
-    box-shadow: 0 4px 10px rgba(111, 66, 193, 0.3);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     z-index: 10000;
 }
 
