@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${schoolName} || Guard Dashboard</title>
+    <link rel="icon" type="image/jpg" href="icons/gcps-1000x600.jpg">
+    <link rel="stylesheet" href="dashboard-style.css">
+</head>
+<body>
+    <div class="overlay" id="overlay"></div>
+    <h1>Welcome to the dashboard for ${schoolName}!</h1>
+    <p>Here you can manage your schedule, view announcements, and access resources related to your crossing guard duties at ${schoolName}.</p>
+
+
+    <div class="top-barButtons">
+        <button id="scheduleBtn">View Schedule</button>
+        <button id="announcementsBtn">View Announcements</button>
+        <button id="resourcesBtn">View Resources</button>
+        <button id="logoutBtn">Clock Out</button>
+    </div>
+
+    <div class="schedule">
+        <span class="close-btn" data-section="schedule">&times;</span>
+        <h2>Your Schedule</h2>
+        <p>[Schedule details will be displayed here]</p>
+    </div>
+
+
+
+    <div class="announcements">
+        <span class="close-btn" data-section="announcements">&times;</span>
+        <h2>Announcements</h2>
+        <p>This dashboard is still a work in progress. Stay tuned for updates! Any bugs should be reported to your supervisor.</p>
+    </div>
+
+    <div class="resources">
+        <span class="close-btn" data-section="resources">&times;</span>
+        <h2>Resources</h2>
+        <ul>
+            <li><a href="#">Crossing Guard Handbook</a></li>
+            <li><a href="#">Safety Guidelines</a></li>
+            <li><a href="#">Contact Information</a></li>
+        </ul>
+    </div>
+
+    <div class="clockout-confirmation">
+        <span class="close-btn" data-section="clockout">&times;</span>
+        <h2>Confirm Clock Out</h2>
+        <p>Are you sure you want to clock out?</p>
+        <div class="confirmation-buttons">
+            <button id="confirmClockout" class="confirm-btn">Yes, Clock Out</button>
+            <button id="cancelClockout" class="cancel-btn">Cancel</button>
+        </div>
+    </div>
+
+    <script src="guard_dashboard.js"></script>
+</body>
+</html>

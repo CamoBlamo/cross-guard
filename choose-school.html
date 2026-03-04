@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crossing Guard | Choose School</title>
+    <link rel="stylesheet" href="school-choosing-style.css">
+    <link rel="icon" type="image/jpg" href="icons/gcps-1000x600.jpg">
+</head>
+<body>
+    <h1>Choose Your School</h1>
+    <p>Please select your school to access your dashboard.</p>
+    <form action="guard_dashboard.html" method="post" class="school-selection-form">
+        <label for="school">Select your school:</label>
+        <select id="school" name="school" required>
+            <option value="">--Please choose an option--</option>
+            <option value="school1">School 1</option>
+            <option value="school2">School 2</option>
+            <option value="school3">School 3</option>
+        </select>
+        <button type="submit">Continue</button>
+    </form>
+
+    <script src="school-choose.js"></script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GCPS Crossing Guard || Admin Dashboard</title>
+    <link rel="stylesheet" href="admin_dashboard-style.css">
+    <link rel="icon" type="image/jpg" href="icons/gcps-1000x600.jpg">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+    <div class="overlay" id="overlay"></div>
+    <h1>Welcome to the Admin Dashboard</h1>
+    <p>Here you can manage guards, view reports, and track crossing guard locations in real-time.</p>
+
+    <div class="top-barButtons">
+        <button id="guardLocationBtn">Guard Locations</button>
+        <button id="manageGuardsBtn">Manage Guards</button>
+        <button id="viewReportsBtn">View Reports</button>
+        <button id="adminResourcesBtn">Admin Resources</button>
+        <button id="logoutBtn">Clock Out</button>
+    </div>
+
+    <!-- Guard Location Map Modal -->
+    <div class="guard-location-map">
+        <span class="close-btn" data-section="map">&times;</span>
+        <h2>Crossing Guard Locations</h2>
+        <p>Real-time location tracking of all crossing guards</p>
+        <div id="map"></div>
+        <div id="guardList">
+            <h3>Active Guards</h3>
+            <ul id="activeGuards"></ul>
+        </div>
+    </div>
+
+    <!-- Manage Guards Modal -->
+    <div class="manage-guards">
+        <span class="close-btn" data-section="manage">&times;</span>
+        <h2>Manage Guards</h2>
+        <p>Add, edit, or remove crossing guard assignments</p>
+        <div class="guard-management-content">
+            <p>[Guard management interface will be displayed here]</p>
+        </div>
+    </div>
+
+    <!-- View Reports Modal -->
+    <div class="view-reports">
+        <span class="close-btn" data-section="reports">&times;</span>
+        <h2>Reports</h2>
+        <p>View attendance, incident reports, and performance metrics</p>
+        <div class="reports-content">
+            <p>[Report data will be displayed here]</p>
+        </div>
+    </div>
+
+    <!-- Admin Resources Modal -->
+    <div class="admin-resources">
+        <span class="close-btn" data-section="resources">&times;</span>
+        <h2>Administrative Resources</h2>
+        <ul>
+            <li><a href="#">Training Materials</a></li>
+            <li><a href="#">Policy Documents</a></li>
+            <li><a href="#">Emergency Contacts</a></li>
+            <li><a href="#">School Directory</a></li>
+        </ul>
+    </div>
+
+    <!-- Clock Out Confirmation Modal -->
+    <div class="clockout-confirmation">
+        <span class="close-btn" data-section="clockout">&times;</span>
+        <h2>Confirm Clock Out</h2>
+        <p>Are you sure you want to clock out?</p>
+        <div class="confirmation-buttons">
+            <button id="confirmClockout" class="confirm-btn">Yes, Clock Out</button>
+            <button id="cancelClockout" class="cancel-btn">Cancel</button>
+        </div>
+    </div>
+
+    <script src="admin_dashboard.js"></script>
+</body>
+</html>
